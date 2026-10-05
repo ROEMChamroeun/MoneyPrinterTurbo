@@ -1,0 +1,32 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "webui",
+      "runtimeExecutable": ".venv/bin/python",
+      "runtimeArgs": [
+        "-m",
+        "streamlit",
+        "run",
+        "webui/Main.py",
+        "--server.address=127.0.0.1",
+        "--server.port=8501",
+        "--server.headless=true",
+        "--browser.gatherUsageStats=False",
+        "--client.toolbarMode=minimal",
+        "--logger.hideWelcomeMessage=True",
+        "--server.showEmailPrompt=False"
+      ],
+      "port": 8501
+    },
+    {
+      "name": "voicestudio-backend",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": [
+        "-c",
+        "cd \"$HOME/Library/Application Support/VoiceStudio/runtime/project/backend\" && HF_HUB_OFFLINE=1 OMNIVOICE_PORT=3900 exec ../.venv/bin/python main.py"
+      ],
+      "port": 3900
+    }
+  ]
+}
