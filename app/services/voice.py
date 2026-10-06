@@ -86,6 +86,11 @@ VOXCPM_REFERENCE_AUDIO_MAX_WAV_BYTES = 5 * 1024 * 1024
 VOXCPM_REFERENCE_AUDIO_CONVERSION_TIMEOUT_SECONDS = 15
 VOXCPM_REFERENCE_AUDIO_MAX_DURATION_SECONDS = 120
 VOXCPM_REFERENCE_AUDIO_FILE_TYPES = ("wav", "mp3", "m4a", "aac", "ogg", "flac")
+VOICESTUDIO_DEFAULT_BASE_URL = "http://127.0.0.1:3900/v1"
+VOICESTUDIO_DEFAULT_MODEL = "voxcpm2"
+# VoxCPM2 on a laptop GPU needs roughly 6-12 s per second of speech, plus a model
+# load on the first request; cloud providers keep the shared 120 s budget.
+VOICESTUDIO_TTS_TIMEOUT_SECONDS = 900
 _DEFAULT_TTS_FFMPEG_TIMEOUT_SECONDS = 600
 _VOXCPM_NON_RETRYABLE_STATUS_CODES = {400, 401, 403, 404, 422}
 _VOXCPM_RETRY_DELAY_SECONDS = (1.0, 2.0)
@@ -350,6 +355,42 @@ def get_voxcpm_voices(voice_id: str | None = None) -> list[str]:
     return [f"voxcpm:{voice_id}"]
 
 
+def get_voicestudio_voices() -> dict[str, str]:
+    """Return the voice profiles saved in a local VoiceStudio app.
+
+    VoiceStudio lists its saved voices next to OpenAI alias voices on
+    ``GET {base_url}/audio/voices``; only the saved profiles are offered, as
+    ``{"voicestudio:<profile id>": "<profile name>"}``. The id is the stable
+    value, so renaming a voice in VoiceStudio keeps the selection. Returns an
+    empty dict when VoiceStudio is not running.
+    """
+    base_url = (
+        config.voicestudio.get("base_url", "") or VOICESTUDIO_DEFAULT_BASE_URL
+    ).strip().rstrip("/")
+    try:
+        response = requests.get(f"{base_url}/audio/voices", timeout=5)
+        if response.status_code != 200:
+            logger.warning(
+                f"VoiceStudio voices request failed with status {response.status_code}"
+            )
+            return {}
+        data = response.json()
+        listed = data.get("voices", []) if isinstance(data, dict) else []
+    except Exception as e:
+        logger.warning(f"VoiceStudio voice list unavailable ({type(e).__name__})")
+        return {}
+    voices = {}
+    for entry in listed if isinstance(listed, list) else []:
+        if not isinstance(entry, dict) or entry.get("type") != "profile":
+            continue
+        profile_id = str(entry.get("voice_id") or "").strip()
+        if profile_id:
+            voices[f"voicestudio:{profile_id}"] = (
+                str(entry.get("name") or "").strip() or profile_id
+            )
+    return voices
+
+
 _AZURE_VOICES_DATA_FILE = os.path.join(
     os.path.dirname(__file__), "data", "azure_voices.json"
 )
@@ -452,6 +493,10 @@ def is_fish_audio_voice(voice_name: str) -> bool:
 
 def is_voxcpm_voice(voice_name: str | None) -> bool:
     return (voice_name or "").startswith("voxcpm:")
+
+
+def is_voicestudio_voice(voice_name: str | None) -> bool:
+    return (voice_name or "").startswith("voicestudio:")
 
 
 def get_fish_audio_api_key() -> str:
@@ -719,6 +764,13 @@ def _single_tts(
                 prompt_text=voxcpm_prompt_text,
             )
         logger.error(f"Invalid VoxCPM voice name format: {voice_name}")
+        return None
+    elif is_voicestudio_voice(voice_name):
+        # 格式: voicestudio:<profile id>
+        profile_id = voice_name.split(":", 1)[1].strip()
+        if profile_id:
+            return voicestudio_tts(text, profile_id, voice_file, voice_rate, voice_volume)
+        logger.error(f"Invalid VoiceStudio voice name format: {voice_name}")
         return None
     return azure_tts_v1(text, voice_name, voice_rate, voice_file)
 
@@ -2508,9 +2560,10 @@ def _openai_compatible_tts(
     text: str,
     voice_rate: float,
     voice_file: str,
+    timeout: float = 120,
 ) -> Union[SubMaker, None]:
     """Shared transport for self-hosted, OpenAI-compatible ``/audio/speech``
-    servers (Chatterbox, Kokoro, ...).
+    servers (Chatterbox, Kokoro, VoiceStudio, ...).
 
     Writes the returned audio to ``voice_file`` and builds the full-text
     SubMaker: these servers return no word-level timestamps, so set
@@ -2539,7 +2592,7 @@ def _openai_compatible_tts(
             logger.info(f"start {provider} tts, voice: {voice}, try: {i + 1}")
             ensure_file_path_exists(voice_file)
 
-            response = requests.post(url, json=payload, headers=headers, allow_redirects=False, timeout=120)
+            response = requests.post(url, json=payload, headers=headers, allow_redirects=False, timeout=timeout)
             if 300 <= response.status_code < 400:
                 # Redirecting a speech POST may replay a billed synthesis or
                 # forward its input/credentials. Do not follow or resubmit it.
@@ -2697,6 +2750,41 @@ def kokoro_tts(
         model_id = config.kokoro.get("model_id", "kokoro") or "kokoro"
     return _openai_compatible_tts(
         "kokoro", base_url, api_key, model_id, voice, text, voice_rate, voice_file
+    )
+
+
+def voicestudio_tts(
+    text: str,
+    profile_id: str,
+    voice_file: str,
+    voice_rate: float = 1.0,
+    voice_volume: float = 1.0,
+) -> Union[SubMaker, None]:
+    """Generate speech with a voice saved in the local VoiceStudio app.
+
+    VoiceStudio serves an OpenAI-compatible ``/v1/audio/speech`` endpoint that
+    takes a saved voice profile id as ``voice`` and clones it with the
+    profile's reference clip and transcript. ``[voicestudio] model_id`` pins
+    the engine (default VoxCPM2) so narration does not change when another
+    engine is active in the app. VoxCPM2 output skips VoiceStudio's broadcast
+    mastering on this route, so the voice reaches the video unprocessed.
+
+    No word-level timestamps are returned; set ``subtitle_provider = "whisper"``
+    for tighter subtitle sync.
+    """
+    text = (text or "").strip()
+    if not any(character.isalnum() for character in text):
+        logger.error("VoiceStudio TTS text contains no speakable characters")
+        return None
+    base_url = (
+        config.voicestudio.get("base_url", "") or VOICESTUDIO_DEFAULT_BASE_URL
+    ).strip().rstrip("/")
+    model_id = (
+        config.voicestudio.get("model_id", "") or VOICESTUDIO_DEFAULT_MODEL
+    ).strip()
+    return _openai_compatible_tts(
+        "voicestudio", base_url, "", model_id, profile_id, text, voice_rate,
+        voice_file, timeout=VOICESTUDIO_TTS_TIMEOUT_SECONDS,
     )
 
 

@@ -561,6 +561,7 @@ def save_config():
         config_to_save["kokoro"] = dict(kokoro)
         config_to_save["fish_audio"] = dict(fish_audio)
         config_to_save["voxcpm"] = dict(voxcpm)
+        config_to_save["voicestudio"] = dict(voicestudio)
         config_to_save["ui"] = dict(ui)
         serialized_config = toml.dumps(config_to_save)
 
@@ -619,6 +620,7 @@ chatterbox = _SynchronizedConfig(_cfg.get("chatterbox", {}))
 kokoro = _SynchronizedConfig(_cfg.get("kokoro", {}))
 fish_audio = _SynchronizedConfig(_cfg.get("fish_audio", {}))
 voxcpm = _SynchronizedConfig(_cfg.get("voxcpm", {}))
+voicestudio = _SynchronizedConfig(_cfg.get("voicestudio", {}))
 ui = _SynchronizedConfig(
     _cfg.get(
         "ui",

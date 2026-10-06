@@ -666,6 +666,13 @@ api_key = ""
 model_id = ""
 voice_id = "default"
 
+[voicestudio]
+# Voices saved in the VoiceStudio desktop app on this computer (local, free).
+# Keep VoiceStudio open while videos generate; the voice list is read from it.
+base_url = "http://127.0.0.1:3900/v1"
+# Engine used for every line, independent of the engine active in the app.
+model_id = "voxcpm2"
+
 # =============================================================================
 # WebUI Preferences / WebUI 偏好
 # =============================================================================
