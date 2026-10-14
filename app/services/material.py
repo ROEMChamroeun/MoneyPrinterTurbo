@@ -22,6 +22,7 @@ from app.config import config
 from app.models.schema import MaterialInfo, VideoAspect, VideoConcatMode
 from app.services import (
     material_cache,
+    material_upload,
     metaso_minimax,
     muapi,
     ofox,
@@ -545,7 +546,7 @@ def search_videos_pixabay(
                 orientation_matches = aspect == VideoAspect.square or (
                     _matches_video_aspect(w, h, aspect)
                 )
-                if orientation_matches and w >= video_width:
+                if orientation_matches and w >= video_width and h >= video_height:
                     item = MaterialInfo()
                     item.provider = "pixabay"
                     item.url = video_url
@@ -1221,6 +1222,10 @@ def save_video(video_url: str, save_dir: str = "") -> str:
             clip = VideoFileClip(temp_path)
             duration = clip.duration
             fps = clip.fps
+            # Container duration and an initial frame do not prove the rest of
+            # a faststart MP4 arrived. Validate every video packet before a
+            # nonempty cache entry becomes reusable by later tasks.
+            material_upload._validate_video(temp_path)
             if not (duration > 0 and fps > 0):
                 logger.warning(f"invalid video file: {temp_path} => invalid duration or fps")
                 return ""
