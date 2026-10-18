@@ -13,8 +13,9 @@ Copy-paste prompts for each kind of video are in [PROMPTS.md](PROMPTS.md). Statu
 | A story or emotion documentary, 7–11 min | 1, 2 | Narration, drawn diagrams and captions: ready (`storage/ai-problem-first-edu/`). Stock footage and music: **not rebuilt** (the old `love-19-vs-29-doc/` template is gone, 2026-10-14) | Past runs: narration about 30 min, voice check about 20 min, build 5–20 min, plus your listening time |
 | A mystery / alien / ancient-world story | 1, 2, 6 | Same as above | Told from the believer's side (see Rules) |
 | An animated explainer, 3–10 min | 3 | Ready. Template: `storage/ai-problem-first-edu/` (`maps-traffic-edu/` is gone) | The pictures are an animated web page; one command renders the film |
-| A short vertical clip (under 60 s) cut from a finished film | 4 | **Not built yet** | The first one means adapting the documentary build to 1080x1920; ask Claude to save it as a reusable folder |
-| An emotion short made from scratch (45–90 s) | 5 | **Not built yet** | Same as above |
+| A TikTok short on a trending topic (30–45 s, 9:16) | 5b | Ready (2026-10-18): the `tiktok-short` skill. Template: `storage/short-01-river/` (copy also in the skill's `template/`) | Claude finds the trend on Khmer TikTok, writes the plan, then builds with EffectCraft + FilmCraft on the VM. The full render takes about 25 min. You get the caption and hashtags too |
+| A short vertical clip (under 60 s) cut from a finished film | 4 | Partly: the TikTok short template has the 9:16 captions, footage moves and export | Ask Claude to adapt `storage/short-01-river/` to cut from a finished film |
+| An emotion short made from scratch (45–90 s) | 5 | Partly: same template as 5b | Same as above |
 | A quick video in English or another language | 13 | Ready: the stock web app | Its subtitle renderer breaks Khmer letters, so not for Khmer captions |
 | Not sure which format | 0 | | Claude recommends one and waits |
 
@@ -55,6 +56,10 @@ Your three gates: approve the dossier, listen to the narration, run the pre-publ
 |---|---|
 | `docs/video-plan-01…07/research.md` | The seven dossiers (Lauren Tan, Angkor LiDAR, Angkor and the pyramids, crop circles, love at 19 vs 29, Google Maps, AI in a company). Next is `video-plan-08`. |
 | `.claude/skills/doc-research/` | The research skill |
+| `.claude/skills/tiktok-short/` | The TikTok short skill: trend research, plan, build, caption and hashtags; `template/` is a copy of the build code |
+| `docs/channel/tiktok-review-2026-10-18.md` | Why the first three TikToks got no views, and the checklist before each post |
+| `docs/video-plan-10/plan.md` | The first TikTok short's plan (Water Festival trend, a 3-part series) |
+| `storage/short-01-river/` | The first TikTok short (2026-10-18), `out/short-01-river_tiktok.mp4`; README has the rebuild commands |
 | `storage/ai-problem-first-edu/` | Newest film (explainer, 2026-10-14) and the template for the next one; README has the rebuild commands |
 | `storage/love-19-vs-29-doc/`, `storage/maps-traffic-edu/` | **Gone** (2026-10-14, no backup). Their films were never delivered anywhere else |
 | `storage/khmer-film/` | Shared voice rules, **recreated 2026-10-14**: `khmer_speech.py` (respellings, joined repeats), `khmer_phrasing.py` (calm pauses). `listen_list.py` is not rebuilt: each film's `make_review.py` writes a listening page instead |

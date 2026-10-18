@@ -74,6 +74,15 @@ logos, no faces unless licensed. Music: calm, and tell me the licence of whateve
 Build it like Prompt 4: storage/[name]-short/, reusable.
 ```
 
+### 5b. A TikTok short on a trending topic (30–45 s)
+
+```
+Make the next TikTok short for @my_space_ha with the tiktok-short skill.
+Topic: [find what is trending on Khmer TikTok now | part 2 of the Water Festival series: the rabbit in the moon | my idea: …]
+Show me the trend table, your pick and the Khmer script, then wait. After I say "start build", build it with
+khmer-voice-artist, EffectCraft and FilmCraft on ubuntu-vm, full 9:16 frame, and give me the caption and 5 hashtags.
+```
+
 ### 6. A mystery, alien or ancient-world story
 
 ```
