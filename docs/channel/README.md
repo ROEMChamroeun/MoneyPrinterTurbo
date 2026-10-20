@@ -58,6 +58,7 @@ Your three gates: approve the dossier, listen to the narration, run the pre-publ
 | `.claude/skills/doc-research/` | The research skill |
 | `.claude/skills/tiktok-short/` | The TikTok short skill: trend research, plan, build, caption and hashtags; `template/` is a copy of the build code |
 | `docs/channel/tiktok-review-2026-10-18.md` | Why the first three TikToks got no views, and the checklist before each post |
+| `docs/channel/mood-fav-song-lyric-edit.md` | Mood breakdown of the fav-song lyric edit (sad song over a golden sea) and a recipe for making a similar short |
 | `docs/video-plan-10/plan.md` | The first TikTok short's plan (Water Festival trend, a 3-part series) |
 | `storage/short-01-river/` | The first TikTok short (2026-10-18), `out/short-01-river_tiktok.mp4`; README has the rebuild commands |
 | `storage/ai-problem-first-edu/` | Newest film (explainer, 2026-10-14) and the template for the next one; README has the rebuild commands |
