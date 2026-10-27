@@ -45,3 +45,7 @@ htmlcov/
 
 # Claude Code 订阅令牌（docker compose 自动读取），禁止提交
 .env
+
+# Large media (GitHub rejects files over 100 MB)
+docs/video-plan-11/mastered/*.wav
+docs/dubs-001/origin-of-oil.mp4

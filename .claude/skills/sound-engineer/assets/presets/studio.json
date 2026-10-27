@@ -1,0 +1,26 @@
+{
+ "name": "studio",
+ "summary": "Dry, clean, broadcast-ready voice: the default for narration, voice-over, explainers and podcasts",
+ "story_use": "Any voice that should sound like a professional booth: news, documentary, tutorials, ads, plain narration.",
+ "status": "default",
+ "tail_s": 0,
+ "inserts": [
+  {
+   "plugin": "eq_7band",
+   "params": {
+    "low_mid_freq": 300,
+    "low_mid_gain": -1.5,
+    "low_mid_q": 1.0,
+    "high_mid_freq": 4500,
+    "high_mid_gain": 1.5,
+    "high_mid_q": 0.9,
+    "high_shelf_freq": 11000,
+    "high_shelf_gain": 1.5,
+    "high_shelf_q": 0.707
+   },
+   "role": "polish",
+   "why": "polish: clear a little boxiness at 300 Hz, add presence at 4.5 kHz and air above 11 kHz"
+  }
+ ],
+ "as_tested": null
+}

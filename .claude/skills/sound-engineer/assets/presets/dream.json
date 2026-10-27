@@ -1,0 +1,103 @@
+{
+ "name": "dream",
+ "summary": "Floating, airy, unreal: a voice inside a dream",
+ "story_use": "Dreams, fantasies, the voice of someone gone, heaven, imagination.",
+ "status": "tested",
+ "tail_s": 5.0,
+ "inserts": [
+  {
+   "plugin": "eq_7band",
+   "params": {
+    "hpf_on": 1,
+    "hpf_freq": 140,
+    "hpf_slope": 1,
+    "low_mid_freq": 300,
+    "low_mid_gain": -1.5,
+    "low_mid_q": 0.9,
+    "high_shelf_freq": 9000,
+    "high_shelf_gain": 3.0,
+    "high_shelf_q": 0.707
+   },
+   "why": "lighter body, shimmering top"
+  },
+  {
+   "plugin": "chorus",
+   "params": {
+    "rate": 0.25,
+    "depth": 25,
+    "delay": 18,
+    "feedback": 10,
+    "mix": 25,
+    "spread": 100
+   },
+   "why": "slow shimmer"
+  },
+  {
+   "plugin": "plate_reverb",
+   "params": {
+    "mix": 38,
+    "pre_delay": 90,
+    "decay": 5.5,
+    "size": 100,
+    "damping": 12000,
+    "diffusion": 95,
+    "width": 100,
+    "low_cut": 300
+   },
+   "why": "huge bright plate, 90 ms pre-delay"
+  }
+ ],
+ "as_tested": {
+  "session": "/home/ubuntu/money-printer/voice-tune/sessions/drama-sister-girl-001-v2_seed7_dream.scraft",
+  "chain": [
+   {
+    "plugin": "eq_7band",
+    "params": {
+     "hpf_on": 1,
+     "hpf_freq": 140,
+     "hpf_slope": 1,
+     "low_mid_freq": 300,
+     "low_mid_gain": -1.5,
+     "low_mid_q": 0.9,
+     "high_shelf_freq": 9000,
+     "high_shelf_gain": 3.0,
+     "high_shelf_q": 0.707
+    }
+   },
+   {
+    "plugin": "compressor",
+    "params": {
+     "threshold": -24,
+     "ratio": 2.5,
+     "attack": 15,
+     "release": 150,
+     "knee": 6
+    }
+   },
+   {
+    "plugin": "chorus",
+    "params": {
+     "rate": 0.25,
+     "depth": 25,
+     "delay": 18,
+     "feedback": 10,
+     "mix": 25,
+     "spread": 100
+    }
+   },
+   {
+    "plugin": "plate_reverb",
+    "params": {
+     "mix": 38,
+     "pre_delay": 90,
+     "decay": 5.5,
+     "size": 100,
+     "damping": 12000,
+     "diffusion": 95,
+     "width": 100,
+     "low_cut": 300
+    }
+   }
+  ]
+ }
+}

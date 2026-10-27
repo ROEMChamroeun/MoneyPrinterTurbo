@@ -1,0 +1,4 @@
+- Dub video docs/dubs-001/origin-of-oil.mp4
+- Voice profile: doc-narrator-girl-002
+- Output: in tiktok , can chunk into 3 parts/episode
+- Font: use Google Sans

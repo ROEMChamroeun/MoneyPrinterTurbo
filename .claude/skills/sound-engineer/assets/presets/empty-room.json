@@ -1,0 +1,77 @@
+{
+ "name": "empty-room",
+ "summary": "A voice alone in a bare, hard room: loneliness and absence",
+ "story_use": "After a breakup or loss, an empty house, waiting for someone who doesn't come.",
+ "status": "tested",
+ "tail_s": 2.0,
+ "inserts": [
+  {
+   "plugin": "eq_7band",
+   "params": {
+    "mid_freq": 3000,
+    "mid_gain": -2.5,
+    "mid_q": 0.9,
+    "high_shelf_freq": 7000,
+    "high_shelf_gain": -3.0,
+    "high_shelf_q": 0.707
+   },
+   "why": "duller top: the voice sits back in the room"
+  },
+  {
+   "plugin": "room_reverb",
+   "params": {
+    "mix": 30,
+    "pre_delay": 15,
+    "decay": 1.8,
+    "size": 75,
+    "damping": 8000,
+    "diffusion": 35,
+    "width": 100,
+    "low_cut": 150
+   },
+   "why": "low diffusion = hard bare walls, audible early reflections"
+  }
+ ],
+ "as_tested": {
+  "session": "/home/ubuntu/money-printer/voice-tune/sessions/drama-sister-girl-001-v2_seed7_empty-room.scraft",
+  "chain": [
+   {
+    "plugin": "eq_7band",
+    "params": {
+     "hpf_on": 1,
+     "hpf_freq": 100,
+     "hpf_slope": 1,
+     "mid_freq": 3000,
+     "mid_gain": -2.5,
+     "mid_q": 0.9,
+     "high_shelf_freq": 7000,
+     "high_shelf_gain": -3.0,
+     "high_shelf_q": 0.707
+    }
+   },
+   {
+    "plugin": "compressor",
+    "params": {
+     "threshold": -24,
+     "ratio": 2.5,
+     "attack": 15,
+     "release": 150,
+     "knee": 6
+    }
+   },
+   {
+    "plugin": "room_reverb",
+    "params": {
+     "mix": 30,
+     "pre_delay": 15,
+     "decay": 1.8,
+     "size": 75,
+     "damping": 8000,
+     "diffusion": 35,
+     "width": 100,
+     "low_cut": 150
+    }
+   }
+  ]
+ }
+}

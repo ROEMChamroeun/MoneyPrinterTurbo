@@ -1,0 +1,131 @@
+{
+ "name": "cassette",
+ "summary": "Warm worn tape: an old recording found again",
+ "story_use": "Old voice messages, a tape from childhood, a recording of someone from years ago.",
+ "status": "tested",
+ "tail_s": 0,
+ "inserts": [
+  {
+   "plugin": "eq_7band",
+   "params": {
+    "hpf_on": 1,
+    "hpf_freq": 70,
+    "hpf_slope": 1,
+    "low_mid_freq": 180,
+    "low_mid_gain": 2.5,
+    "low_mid_q": 0.8,
+    "mid_freq": 2500,
+    "mid_gain": -1.5,
+    "mid_q": 0.9,
+    "lpf_on": 1,
+    "lpf_freq": 7000,
+    "lpf_slope": 2
+   },
+   "why": "tape bandwidth: warm lows, top rolled off at 7 kHz"
+  },
+  {
+   "plugin": "saturator",
+   "params": {
+    "drive": 8,
+    "bias": 0,
+    "tone": 8000,
+    "mix": 70,
+    "output": -3
+   },
+   "why": "tape saturation"
+  },
+  {
+   "plugin": "chorus",
+   "params": {
+    "rate": 0.6,
+    "depth": 8,
+    "delay": 6,
+    "feedback": 0,
+    "mix": 100,
+    "spread": 0
+   },
+   "why": "wow and flutter"
+  }
+ ],
+ "bed": {
+  "inserts": [
+   {
+    "plugin": "signal_generator",
+    "params": {
+     "waveform": 5,
+     "level": -40
+    }
+   },
+   {
+    "plugin": "eq_7band",
+    "params": {
+     "hpf_on": 1,
+     "hpf_freq": 2000,
+     "hpf_slope": 1,
+     "lpf_on": 1,
+     "lpf_freq": 7000,
+     "lpf_slope": 2
+    }
+   },
+   {
+    "plugin": "gain",
+    "params": {
+     "gain": 0
+    }
+   }
+  ]
+ },
+ "as_tested": {
+  "session": "/home/ubuntu/money-printer/voice-tune/sessions/drama-sister-girl-001-v2_seed7_cassette.scraft",
+  "chain": [
+   {
+    "plugin": "eq_7band",
+    "params": {
+     "hpf_on": 1,
+     "hpf_freq": 70,
+     "hpf_slope": 1,
+     "low_mid_freq": 180,
+     "low_mid_gain": 2.5,
+     "low_mid_q": 0.8,
+     "mid_freq": 2500,
+     "mid_gain": -1.5,
+     "mid_q": 0.9,
+     "lpf_on": 1,
+     "lpf_freq": 7000,
+     "lpf_slope": 2
+    }
+   },
+   {
+    "plugin": "saturator",
+    "params": {
+     "drive": 8,
+     "bias": 0,
+     "tone": 8000,
+     "mix": 70,
+     "output": -3
+    }
+   },
+   {
+    "plugin": "compressor",
+    "params": {
+     "threshold": -24,
+     "ratio": 2.5,
+     "attack": 10,
+     "release": 120,
+     "knee": 6
+    }
+   },
+   {
+    "plugin": "chorus",
+    "params": {
+     "rate": 0.6,
+     "depth": 8,
+     "delay": 6,
+     "feedback": 0,
+     "mix": 100,
+     "spread": 0
+    }
+   }
+  ]
+ }
+}

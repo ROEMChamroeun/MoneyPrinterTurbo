@@ -1,0 +1,94 @@
+{
+ "name": "echo",
+ "summary": "Words that repeat and fade: a thought echoing in the head",
+ "story_use": "Inner voice, haunting lines, a name or phrase that keeps coming back.",
+ "status": "tested",
+ "tail_s": 2.5,
+ "inserts": [
+  {
+   "plugin": "eq_7band",
+   "params": {
+    "low_mid_freq": 250,
+    "low_mid_gain": 1.5,
+    "low_mid_q": 0.9
+   },
+   "why": "a little body"
+  },
+  {
+   "plugin": "mod_delay",
+   "params": {
+    "time": 420,
+    "feedback": 35,
+    "mix": 22,
+    "mod_rate": 0.3,
+    "mod_depth": 10,
+    "lpf": 3500
+   },
+   "why": "420 ms dark, slowly drifting repeats"
+  },
+  {
+   "plugin": "plate_reverb",
+   "params": {
+    "mix": 16,
+    "pre_delay": 40,
+    "decay": 2.2,
+    "size": 60,
+    "damping": 6000,
+    "diffusion": 85,
+    "width": 100,
+    "low_cut": 200
+   },
+   "why": "plate glues the repeats into a space"
+  }
+ ],
+ "as_tested": {
+  "session": "/home/ubuntu/money-printer/voice-tune/sessions/drama-sister-girl-001-v2_seed7_echo.scraft",
+  "chain": [
+   {
+    "plugin": "eq_7band",
+    "params": {
+     "hpf_on": 1,
+     "hpf_freq": 100,
+     "hpf_slope": 1,
+     "low_mid_freq": 250,
+     "low_mid_gain": 1.5,
+     "low_mid_q": 0.9
+    }
+   },
+   {
+    "plugin": "compressor",
+    "params": {
+     "threshold": -24,
+     "ratio": 2.5,
+     "attack": 15,
+     "release": 150,
+     "knee": 6
+    }
+   },
+   {
+    "plugin": "mod_delay",
+    "params": {
+     "time": 420,
+     "feedback": 35,
+     "mix": 22,
+     "mod_rate": 0.3,
+     "mod_depth": 10,
+     "lpf": 3500
+    }
+   },
+   {
+    "plugin": "plate_reverb",
+    "params": {
+     "mix": 16,
+     "pre_delay": 40,
+     "decay": 2.2,
+     "size": 60,
+     "damping": 6000,
+     "diffusion": 85,
+     "width": 100,
+     "low_cut": 200
+    }
+   }
+  ]
+ }
+}

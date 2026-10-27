@@ -1,0 +1,90 @@
+{
+ "name": "intimate",
+ "summary": "Close, warm, whispered-in-your-ear confession",
+ "story_use": "Confessions, secrets, love letters, late-night thoughts: the listener is right next to the speaker.",
+ "status": "tested",
+ "tail_s": 0.5,
+ "foundation": {
+  "leveler": {
+   "ratio": 3.0,
+   "knee": 8,
+   "threshold_offset": -2
+  }
+ },
+ "inserts": [
+  {
+   "plugin": "eq_7band",
+   "params": {
+    "low_mid_freq": 220,
+    "low_mid_gain": 2.5,
+    "low_mid_q": 0.8,
+    "mid_freq": 3000,
+    "mid_gain": -2.0,
+    "mid_q": 1.0,
+    "high_shelf_freq": 10000,
+    "high_shelf_gain": 1.5,
+    "high_shelf_q": 0.707
+   },
+   "why": "close-mic warmth at 220 Hz, softer 3 kHz edge, a breath of air"
+  },
+  {
+   "plugin": "room_reverb",
+   "params": {
+    "mix": 8,
+    "pre_delay": 5,
+    "decay": 0.45,
+    "size": 15,
+    "damping": 7000,
+    "diffusion": 70,
+    "width": 100,
+    "low_cut": 150
+   },
+   "why": "a small, close room so the voice isn't clinically dry"
+  }
+ ],
+ "as_tested": {
+  "session": "/home/ubuntu/money-printer/voice-tune/sessions/drama-sister-girl-001-v2_seed7_intimate.scraft",
+  "chain": [
+   {
+    "plugin": "eq_7band",
+    "params": {
+     "hpf_on": 1,
+     "hpf_freq": 80,
+     "hpf_slope": 1,
+     "low_mid_freq": 220,
+     "low_mid_gain": 2.5,
+     "low_mid_q": 0.8,
+     "mid_freq": 3000,
+     "mid_gain": -2.0,
+     "mid_q": 1.0,
+     "high_shelf_freq": 10000,
+     "high_shelf_gain": 1.5,
+     "high_shelf_q": 0.707
+    }
+   },
+   {
+    "plugin": "compressor",
+    "params": {
+     "threshold": -26,
+     "ratio": 3,
+     "attack": 12,
+     "release": 140,
+     "knee": 8
+    }
+   },
+   {
+    "plugin": "room_reverb",
+    "params": {
+     "mix": 8,
+     "pre_delay": 5,
+     "decay": 0.45,
+     "size": 15,
+     "damping": 7000,
+     "diffusion": 70,
+     "width": 100,
+     "low_cut": 150
+    }
+   }
+  ]
+ }
+}

@@ -1,0 +1,172 @@
+{
+ "name": "radio",
+ "summary": "AM radio / phone voice: narrow, driven, crunchy",
+ "story_use": "A voice on the phone, an old radio broadcast, news from far away, a call that came too late.",
+ "status": "tested",
+ "tail_s": 0,
+ "foundation": {
+  "leveler": false,
+  "deesser": false,
+  "peak": "post"
+ },
+ "inserts": [
+  {
+   "plugin": "eq_7band",
+   "params": {
+    "hpf_on": 1,
+    "hpf_freq": 500,
+    "hpf_slope": 3,
+    "low_mid_freq": 800,
+    "low_mid_gain": 2.0,
+    "low_mid_q": 1.0,
+    "mid_freq": 1500,
+    "mid_gain": 6.0,
+    "mid_q": 0.9,
+    "high_mid_freq": 2800,
+    "high_mid_gain": 2.0,
+    "high_mid_q": 1.2,
+    "lpf_on": 1,
+    "lpf_freq": 3600,
+    "lpf_slope": 3
+   },
+   "why": "telephone band 500 Hz-3.6 kHz with a honky 1.5 kHz push"
+  },
+  {
+   "plugin": "saturator",
+   "params": {
+    "drive": 14,
+    "bias": 0,
+    "tone": 5000,
+    "mix": 100,
+    "output": -6
+   },
+   "why": "speaker drive"
+  },
+  {
+   "plugin": "compressor",
+   "params": {
+    "threshold": -26,
+    "ratio": 6,
+    "attack": 3,
+    "release": 80,
+    "knee": 6
+   },
+   "why": "squashed broadcast dynamics"
+  },
+  {
+   "plugin": "lofi",
+   "params": {
+    "bits": 11,
+    "sample_rate": 11025,
+    "noise": 0,
+    "mix": 100
+   },
+   "why": "digital grit"
+  },
+  {
+   "plugin": "eq_7band",
+   "params": {
+    "hpf_on": 1,
+    "hpf_freq": 400,
+    "hpf_slope": 3,
+    "lpf_on": 1,
+    "lpf_freq": 3400,
+    "lpf_slope": 3
+   },
+   "why": "clean up the lofi aliasing"
+  }
+ ],
+ "bed": {
+  "inserts": [
+   {
+    "plugin": "signal_generator",
+    "params": {
+     "waveform": 5,
+     "level": -40
+    }
+   },
+   {
+    "plugin": "eq_7band",
+    "params": {
+     "hpf_on": 1,
+     "hpf_freq": 400,
+     "hpf_slope": 3,
+     "lpf_on": 1,
+     "lpf_freq": 3400,
+     "lpf_slope": 3
+    }
+   },
+   {
+    "plugin": "gain",
+    "params": {
+     "gain": 3
+    }
+   }
+  ]
+ },
+ "as_tested": {
+  "session": "/home/ubuntu/money-printer/voice-tune/sessions/drama-sister-girl-001-v2_seed7_radio.scraft",
+  "chain": [
+   {
+    "plugin": "eq_7band",
+    "params": {
+     "hpf_on": 1,
+     "hpf_freq": 500,
+     "hpf_slope": 3,
+     "low_mid_freq": 800,
+     "low_mid_gain": 2.0,
+     "low_mid_q": 1.0,
+     "mid_freq": 1500,
+     "mid_gain": 6.0,
+     "mid_q": 0.9,
+     "high_mid_freq": 2800,
+     "high_mid_gain": 2.0,
+     "high_mid_q": 1.2,
+     "lpf_on": 1,
+     "lpf_freq": 3600,
+     "lpf_slope": 3
+    }
+   },
+   {
+    "plugin": "saturator",
+    "params": {
+     "drive": 14,
+     "bias": 0,
+     "tone": 5000,
+     "mix": 100,
+     "output": -6
+    }
+   },
+   {
+    "plugin": "compressor",
+    "params": {
+     "threshold": -26,
+     "ratio": 6,
+     "attack": 3,
+     "release": 80,
+     "knee": 6
+    }
+   },
+   {
+    "plugin": "lofi",
+    "params": {
+     "bits": 11,
+     "sample_rate": 11025,
+     "noise": 0,
+     "mix": 100
+    }
+   },
+   {
+    "plugin": "eq_7band",
+    "params": {
+     "hpf_on": 1,
+     "hpf_freq": 400,
+     "hpf_slope": 3,
+     "lpf_on": 1,
+     "lpf_freq": 3400,
+     "lpf_slope": 3
+    }
+   }
+  ]
+ }
+}

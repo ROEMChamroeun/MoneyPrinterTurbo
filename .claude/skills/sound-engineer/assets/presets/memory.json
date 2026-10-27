@@ -1,0 +1,77 @@
+{
+ "name": "memory",
+ "summary": "Soft, slightly distant voice in a gentle plate: remembering the past",
+ "story_use": "Flashbacks, regret, looking back, 'I still remember...' passages.",
+ "status": "tested",
+ "tail_s": 3.0,
+ "inserts": [
+  {
+   "plugin": "eq_7band",
+   "params": {
+    "low_mid_freq": 250,
+    "low_mid_gain": 1.5,
+    "low_mid_q": 0.9,
+    "high_shelf_freq": 8000,
+    "high_shelf_gain": -2.0,
+    "high_shelf_q": 0.707
+   },
+   "why": "rounder low-mids, softened top: the voice feels further away in time"
+  },
+  {
+   "plugin": "plate_reverb",
+   "params": {
+    "mix": 28,
+    "pre_delay": 70,
+    "decay": 3.2,
+    "size": 80,
+    "damping": 5000,
+    "diffusion": 90,
+    "width": 100,
+    "low_cut": 250
+   },
+   "why": "long dark plate with 70 ms pre-delay so words stay clear before the bloom"
+  }
+ ],
+ "as_tested": {
+  "session": "/home/ubuntu/money-printer/voice-tune/sessions/drama-sister-girl-001-v2_seed7_memory.scraft",
+  "chain": [
+   {
+    "plugin": "eq_7band",
+    "params": {
+     "hpf_on": 1,
+     "hpf_freq": 100,
+     "hpf_slope": 1,
+     "low_mid_freq": 250,
+     "low_mid_gain": 1.5,
+     "low_mid_q": 0.9,
+     "high_shelf_freq": 8000,
+     "high_shelf_gain": -2.0,
+     "high_shelf_q": 0.707
+    }
+   },
+   {
+    "plugin": "compressor",
+    "params": {
+     "threshold": -24,
+     "ratio": 2.5,
+     "attack": 15,
+     "release": 150,
+     "knee": 6
+    }
+   },
+   {
+    "plugin": "plate_reverb",
+    "params": {
+     "mix": 28,
+     "pre_delay": 70,
+     "decay": 3.2,
+     "size": 80,
+     "damping": 5000,
+     "diffusion": 90,
+     "width": 100,
+     "low_cut": 250
+    }
+   }
+  ]
+ }
+}
